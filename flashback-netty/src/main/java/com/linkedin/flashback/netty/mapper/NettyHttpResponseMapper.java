@@ -17,9 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static io.netty.buffer.Unpooled.*;
-import static io.netty.handler.codec.http.HttpVersion.*;
-
+import static io.netty.buffer.Unpooled.wrappedBuffer;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * Mapper from RecordedHttpResponse to Netty HttpResponse
