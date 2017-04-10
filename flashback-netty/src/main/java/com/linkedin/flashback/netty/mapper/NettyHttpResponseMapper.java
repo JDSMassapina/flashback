@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static io.netty.buffer.Unpooled.wrappedBuffer;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import static io.netty.buffer.Unpooled.*;
+import static io.netty.handler.codec.http.HttpVersion.*;
 
 /**
  * Mapper from RecordedHttpResponse to Netty HttpResponse
@@ -26,6 +26,8 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * @author shfeng.
  */
 public final class NettyHttpResponseMapper {
+
+  public static final String SET_COOKIE = "Set-Cookie";
 
   private NettyHttpResponseMapper() {
   }
@@ -45,7 +47,7 @@ public final class NettyHttpResponseMapper {
       // It's hard to find special character to split them properly. However, we don't want encode other
       // headers becaus we don't want lose readability in the flashback.scene so let's handle Set-Cookie header
       // differently
-      if(header.getKey().equals("Set-Cookie")) {
+      if (SET_COOKIE.equals(header.getKey())) {
         fullHttpResponse.headers()
             .set(header.getKey(),
                 StreamSupport.stream(Splitter.onPattern(",\\s*").split(header.getValue()).spliterator(), false)

@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
  * @author shfeng
  */
 public abstract class RecordedHttpMessageBuilder {
+  public static final String SET_COOKIE = "Set-Cookie";
   protected HttpMessage _nettyHttpMessage;
   private final Multimap<String, String> _headers = LinkedHashMultimap.create();
   protected final CompositeByteBuf _bodyByteBuf = Unpooled.compositeBuffer();
@@ -98,7 +99,7 @@ public abstract class RecordedHttpMessageBuilder {
     // It's hard to find special character to split them properly. However, we don't want encode other
     // headers becaus we don't want lose readability in the flashback.scene so let's handle Set-Cookie header
     // differently
-    if("Set-Cookie".equals(name)) {
+    if (SET_COOKIE.equals(name)) {
       return Joiner.on(", ")
           .join(_headers.get(name)
               .stream()

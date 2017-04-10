@@ -64,8 +64,7 @@ public class NettyHttpResponseMapperTest {
   public void testCookieHeader() throws URISyntaxException, IOException {
     Map<String, String> headers = new HashMap<>();
     headers.put("key1", "value1");
-    headers.put("Set-Cookie",
-        "QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmEtNDg0YS04YTVlLWFzZGZhXCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmFzZGYtNDg0YS04YTVlLWFzZGZ8bjphc2RmYXNkZmFzZC0zN2NhLTQyY2YtYTkwOS05NWUwZGQxOWUzMzRcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, QUJDPVwiUjowfGk6MTM4NTA3XCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGk6MTM4NTA3fGU6NDJcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, Z3Vlc3RpZGM9MGQyOGJkYTYtNWQ0Mi00ZWU5LWJkMWUtYXNkYXNkYTsgRG9tYWluPWFzZGFmc2RmYXNkZmFzZGZhLmNvbTsgUGF0aD0v");
+    headers.put("Set-Cookie", "YSxiLGM=, ZCxlLGY=");
     int status = 200;
     String str = "Hello world";
     RecordedStringHttpBody recordedStringHttpBody = new RecordedStringHttpBody(str);
@@ -75,26 +74,16 @@ public class NettyHttpResponseMapperTest {
     Assert.assertEquals(fullHttpResponse.getStatus().code(), status);
     Assert.assertEquals(fullHttpResponse.headers().get("key1"), "value1");
     List<String> headrValues = fullHttpResponse.headers().getAll("Set-Cookie");
-    Assert.assertEquals(headrValues.size(), 5);
-    Assert.assertTrue(headrValues.contains(
-        "ABC=\\\"R:0|g:fcaa967e-asdfa-484a-8a5e-asdfa\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertTrue(headrValues.contains(
-        "ABC=\\\"R:0|g:fcaa967e-asdfasdf-484a-8a5e-asdf|n:asdfasdfasd-37ca-42cf-a909-95e0dd19e334\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertTrue(headrValues.contains(
-        "ABC=\\\"R:0|i:138507\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertTrue(headrValues.contains(
-        "ABC=\\\"R:0|i:138507|e:42\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertTrue(
-        headrValues.contains("guestidc=0d28bda6-5d42-4ee9-bd1e-asdasda; Domain=asdafsdfasdfasdfa.com; Path=/"));
-
+    Assert.assertEquals(headrValues.size(), 2);
+    Assert.assertTrue(headrValues.contains("a,b,c"));
+    Assert.assertTrue(headrValues.contains("d,e,f"));
   }
 
   @Test
   public void testNonCookieHeader() throws URISyntaxException, IOException {
     Map<String, String> headers = new HashMap<>();
     headers.put("key1", "value1");
-    headers.put("Not-Set-Cookie",
-        "QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmEtNDg0YS04YTVlLWFzZGZhXCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmFzZGYtNDg0YS04YTVlLWFzZGZ8bjphc2RmYXNkZmFzZC0zN2NhLTQyY2YtYTkwOS05NWUwZGQxOWUzMzRcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, QUJDPVwiUjowfGk6MTM4NTA3XCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGk6MTM4NTA3fGU6NDJcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, Z3Vlc3RpZGM9MGQyOGJkYTYtNWQ0Mi00ZWU5LWJkMWUtYXNkYXNkYTsgRG9tYWluPWFzZGFmc2RmYXNkZmFzZGZhLmNvbTsgUGF0aD0v");
+    headers.put("Not-Set-Cookie", "YSxiLGM=, ZCxlLGY=");
     int status = 200;
     String str = "Hello world";
     RecordedStringHttpBody recordedStringHttpBody = new RecordedStringHttpBody(str);
@@ -104,17 +93,9 @@ public class NettyHttpResponseMapperTest {
     Assert.assertEquals(fullHttpResponse.getStatus().code(), status);
     Assert.assertEquals(fullHttpResponse.headers().get("key1"), "value1");
     List<String> headrValues = fullHttpResponse.headers().getAll("Not-Set-Cookie");
-    Assert.assertEquals(headrValues.size(), 5);
-    Assert.assertFalse(headrValues.contains(
-        "ABC=\\\"R:0|g:fcaa967e-asdfa-484a-8a5e-asdfa\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertFalse(headrValues.contains(
-        "ABC=\\\"R:0|g:fcaa967e-asdfasdf-484a-8a5e-asdf|n:asdfasdfasd-37ca-42cf-a909-95e0dd19e334\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertFalse(headrValues.contains(
-        "ABC=\\\"R:0|i:138507\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertFalse(headrValues.contains(
-        "ABC=\\\"R:0|i:138507|e:42\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/"));
-    Assert.assertFalse(
-        headrValues.contains("guestidc=0d28bda6-5d42-4ee9-bd1e-asdasda; Domain=asdafsdfasdfasdfa.com; Path=/"));
+    Assert.assertEquals(headrValues.size(), 2);
 
+    Assert.assertFalse(headrValues.contains("a,b,c"));
+    Assert.assertFalse(headrValues.contains("d,e,f"));
   }
 }

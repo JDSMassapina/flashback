@@ -50,25 +50,15 @@ public class RecordedHttpMessageBuilderTest {
     HttpRequest nettyRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET, "www.abc.com");
     nettyRequest.headers()
         .add("Set-Cookie",
-            "ABC=\\\"R:0|g:fcaa967e-asdfa-484a-8a5e-asdfa\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
+            "a,b,c");
     nettyRequest.headers()
         .add("Set-Cookie",
-            "ABC=\\\"R:0|g:fcaa967e-asdfasdf-484a-8a5e-asdf|n:asdfasdfasd-37ca-42cf-a909-95e0dd19e334\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
-    nettyRequest.headers()
-        .add("Set-Cookie",
-            "ABC=\\\"R:0|i:138507\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
-    nettyRequest.headers()
-        .add("Set-Cookie",
-            "ABC=\\\"R:0|i:138507|e:42\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
-    nettyRequest.headers()
-        .add("Set-Cookie", "guestidc=0d28bda6-5d42-4ee9-bd1e-asdasda; Domain=asdafsdfasdfasdfa.com; Path=/");
-
+            "d,e,f");
     RecordedHttpRequestBuilder recordedHttpRequestBuilder = new RecordedHttpRequestBuilder(nettyRequest);
     Map<String, String> headers = recordedHttpRequestBuilder.getHeaders();
 
     Assert.assertEquals(headers.size(), 1);
-    Assert.assertEquals(headers.get("Set-Cookie"),
-        "QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmEtNDg0YS04YTVlLWFzZGZhXCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmFzZGYtNDg0YS04YTVlLWFzZGZ8bjphc2RmYXNkZmFzZC0zN2NhLTQyY2YtYTkwOS05NWUwZGQxOWUzMzRcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, QUJDPVwiUjowfGk6MTM4NTA3XCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGk6MTM4NTA3fGU6NDJcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, Z3Vlc3RpZGM9MGQyOGJkYTYtNWQ0Mi00ZWU5LWJkMWUtYXNkYXNkYTsgRG9tYWluPWFzZGFmc2RmYXNkZmFzZGZhLmNvbTsgUGF0aD0v");
+    Assert.assertEquals(headers.get("Set-Cookie"), "YSxiLGM=, ZCxlLGY=");
   }
 
   @Test
@@ -76,24 +66,15 @@ public class RecordedHttpMessageBuilderTest {
     HttpRequest nettyRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET, "www.abc.com");
     nettyRequest.headers()
         .add("Not-Set-Cookie",
-            "ABC=\\\"R:0|g:fcaa967e-asdfa-484a-8a5e-asdfa\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
+            "a,b,c");
     nettyRequest.headers()
         .add("Not-Set-Cookie",
-            "ABC=\\\"R:0|g:fcaa967e-asdfasdf-484a-8a5e-asdf|n:asdfasdfasd-37ca-42cf-a909-95e0dd19e334\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
-    nettyRequest.headers()
-        .add("Not-Set-Cookie",
-            "ABC=\\\"R:0|i:138507\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
-    nettyRequest.headers()
-        .add("Not-Set-Cookie",
-            "ABC=\\\"R:0|i:138507|e:42\\\"; Version=1; Max-Age=30; Expires=Thu, 23-Mar-2017 18:01:20 GMT; Path=/");
-    nettyRequest.headers()
-        .add("Not-Set-Cookie", "guestidc=0d28bda6-5d42-4ee9-bd1e-asdasda; Domain=asdafsdfasdfasdfa.com; Path=/");
+            "d,e,f");
 
     RecordedHttpRequestBuilder recordedHttpRequestBuilder = new RecordedHttpRequestBuilder(nettyRequest);
     Map<String, String> headers = recordedHttpRequestBuilder.getHeaders();
 
     Assert.assertEquals(headers.size(), 1);
-    Assert.assertNotEquals(headers.get("Not-Set-Cookie"),
-        "QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmEtNDg0YS04YTVlLWFzZGZhXCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGc6ZmNhYTk2N2UtYXNkZmFzZGYtNDg0YS04YTVlLWFzZGZ8bjphc2RmYXNkZmFzZC0zN2NhLTQyY2YtYTkwOS05NWUwZGQxOWUzMzRcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, QUJDPVwiUjowfGk6MTM4NTA3XCI7IFZlcnNpb249MTsgTWF4LUFnZT0zMDsgRXhwaXJlcz1UaHUsIDIzLU1hci0yMDE3IDE4OjAxOjIwIEdNVDsgUGF0aD0v, QUJDPVwiUjowfGk6MTM4NTA3fGU6NDJcIjsgVmVyc2lvbj0xOyBNYXgtQWdlPTMwOyBFeHBpcmVzPVRodSwgMjMtTWFyLTIwMTcgMTg6MDE6MjAgR01UOyBQYXRoPS8=, Z3Vlc3RpZGM9MGQyOGJkYTYtNWQ0Mi00ZWU5LWJkMWUtYXNkYXNkYTsgRG9tYWluPWFzZGFmc2RmYXNkZmFzZGZhLmNvbTsgUGF0aD0v");
+    Assert.assertNotEquals(headers.get("Not-Set-Cookie"), "YSxiLGM=, ZCxlLGY=");
   }
 }
